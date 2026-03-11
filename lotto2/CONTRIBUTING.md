@@ -1,6 +1,6 @@
 # Contributing to ODX
 
-Thank you for your interest in ODX! We welcome contributions to improve the Open Document XML format and its associated tools.
+Thank you for your interest in ODX! We welcome contributions to improve the Open Document eXtended format and its associated tools.
 
 ## How to Contribute
 
@@ -10,9 +10,18 @@ Thank you for your interest in ODX! We welcome contributions to improve the Open
     - Fork the repository.
     - Create a new branch for your changes.
     - Write tests for your changes.
-    - Ensure all tests pass.
+    - Ensure all tests pass (`pytest`).
     - Submit a pull request with a clear description of your changes.
+
+## Development Setup
+
+```bash
+git clone https://github.com/marcorzzn/odx.git
+cd odx
+pip install -e ".[dev]"
+pytest
+```
 
 ## License
 
-By contributing to ODX, you agree that your contributions will be licensed under the MIT License.
+By contributing to ODX, you agree that your contributions will be licensed under the **MIT License**.
