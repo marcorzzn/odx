@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Open Document eXtended - Format Specification v0.1">
+<meta name="generator" content="odx-renderer v0.1 — 2026-03-10 22:44">
+<title>ODX Technical Specification · ODX</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap');
+:root{
+  --bg:#f7f5f0;--surface:#fff;--border:#e0dbd0;--border2:#c0b8a8;
+  --ink:#1a1612;--ink2:#4a4035;--ink3:#9a8a78;
+  --accent:#1a3a5c;--accent2:#2d6a9f;--code:#f0ede6;
+  --sh:0 1px 3px rgba(26,22,18,.07),0 4px 16px rgba(26,22,18,.05);
+  --r:4px;--fw:680px;
+  --fb:'Spectral',Georgia,serif;--fm:'JetBrains Mono','Consolas',monospace;
+  --tr:.18s ease;
+}
+[data-theme=dark]{
+  --bg:#13110e;--surface:#1c1914;--border:#2a2420;--border2:#3a3028;
+  --ink:#e4ddd4;--ink2:#a09080;--ink3:#6a5a4a;
+  --accent:#7ab3e0;--accent2:#9ecbf4;--code:#201e18;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:17px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-weight:300;line-height:1.75;min-height:100vh;transition:background var(--tr),color var(--tr)}
+
+/* topbar */
+#tb{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 18px;transition:background var(--tr)}
+.tb-brand{font-family:var(--fm);font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.06em}
+.tb-title{font-size:12px;color:var(--ink2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#si{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:5px 10px;font-size:12px;font-family:var(--fm);color:var(--ink);width:190px;outline:none;transition:border var(--tr),background var(--tr)}
+#si:focus{border-color:var(--accent2)}
+#sc{font-family:var(--fm);font-size:10px;color:var(--ink3);white-space:nowrap}
+.tbtn{background:transparent;border:1px solid var(--border);border-radius:var(--r);padding:4px 10px;font-size:11px;font-family:var(--fm);color:var(--ink2);cursor:pointer;white-space:nowrap;transition:all var(--tr)}
+.tbtn:hover{background:var(--bg);color:var(--ink);border-color:var(--border2)}
+.tbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* layout */
+#lay{display:grid;grid-template-columns:210px 1fr;padding-top:48px;min-height:100vh}
+#sb{position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;border-right:1px solid var(--border);padding:20px 14px;font-size:12px;background:var(--surface);transition:background var(--tr)}
+.sb-lbl{font-family:var(--fm);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.sb-sec{margin-bottom:22px}
+.mr{margin-bottom:9px}
+.mk{font-family:var(--fm);font-size:9px;color:var(--ink3);display:block}
+.mv{font-size:11px;color:var(--ink2);word-break:break-word}
+.lbadge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:9px;font-family:var(--fm);font-size:9px;background:var(--bg);border:1px solid var(--border);color:var(--ink3);margin:2px 2px 2px 0}
+.lbadge.ok{border-color:#4caf50;color:#2e7d32;background:rgba(76,175,80,.08)}
+[data-theme=dark] .lbadge.ok{color:#81c784}
+.toc-list{list-style:none}
+.toc-item a{display:block;padding:3px 6px;color:var(--ink2);text-decoration:none;border-radius:2px;font-size:11px;line-height:1.4;transition:all var(--tr)}
+.toc-item a:hover{background:var(--bg);color:var(--ink)}
+.toc-item.lv1 a{font-weight:600}
+.toc-item.lv2 a{padding-left:14px}
+.toc-item.lv3 a{padding-left:26px;font-size:10px}
+
+/* main */
+#mn{min-width:0;padding:44px 40px 80px}
+#doc{max-width:var(--fw);margin:0 auto}
+#doc.hide{display:none}
+.dh{margin-bottom:44px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.dt{font-size:2.3rem;font-weight:300;line-height:1.15;letter-spacing:-.01em;margin-bottom:10px}
+.by{font-family:var(--fm);font-size:11px;color:var(--ink3);display:flex;flex-wrap:wrap;gap:14px}
+.by-i+.by-i{border-left:1px solid var(--border2);padding-left:14px}
+
+/* semantic elements */
+.odx-section{margin-bottom:28px}
+.odx-role-abstract{background:var(--code);border-left:3px solid var(--accent);padding:18px 22px;border-radius:0 var(--r) var(--r) 0;margin-bottom:28px;font-style:italic;color:var(--ink2)}
+.odx-heading{font-weight:600;color:var(--ink);margin-top:1.8em;margin-bottom:.45em;line-height:1.3;letter-spacing:-.01em}
+h1.odx-heading{font-size:1.85rem;font-weight:300;border-bottom:1px solid var(--border);padding-bottom:7px}
+h2.odx-heading{font-size:1.3rem}
+h3.odx-heading{font-size:1.05rem}
+h4.odx-heading{font-size:1rem;font-style:italic}
+.odx-para{margin-bottom:.95em;text-align:justify;hyphens:auto}
+.odx-figure{margin:28px 0;text-align:center}
+.odx-img-ph{background:var(--code);border:1px dashed var(--border2);padding:22px;border-radius:var(--r);color:var(--ink3);font-family:var(--fm);font-size:12px}
+.odx-caption{font-size:.82rem;color:var(--ink3);margin-top:7px;font-style:italic}
+.odx-table-wrap{overflow-x:auto;margin:22px 0}
+.odx-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.odx-table th,.odx-table td{padding:7px 11px;border:1px solid var(--border);text-align:left;vertical-align:top}
+.odx-table th{background:var(--code);font-weight:600;font-size:.82rem;font-family:var(--fm);color:var(--ink2)}
+.odx-table tr:nth-child(even) td{background:rgba(0,0,0,.015)}
+[data-theme=dark] .odx-table tr:nth-child(even) td{background:rgba(255,255,255,.025)}
+.odx-list{margin:.45em 0 .9em 1.4em}
+.odx-list li{margin-bottom:.25em}
+.odx-formula{background:var(--code);border:1px solid var(--border);padding:11px 15px;border-radius:var(--r);font-family:var(--fm);font-size:.88rem;margin:14px 0;overflow-x:auto}
+.odx-footnote{font-size:.8rem;color:var(--ink3);padding:7px 11px;border-left:2px solid var(--border2);margin:14px 0}
+.odx-ref{font-size:.82rem;color:var(--ink2);padding:3px 0 3px 14px;border-left:2px solid var(--border)}
+mark.srch{background:rgba(255,196,0,.40);color:inherit;border-radius:2px;padding:0 1px}
+[data-theme=dark] mark.srch{background:rgba(255,196,0,.28)}
+
+/* OCR panel */
+#ocrp{display:none;max-width:var(--fw);margin:0 auto}
+#ocrp.on{display:block}
+.ocr-stats{display:flex;align-items:center;gap:22px;padding:18px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;flex-wrap:wrap}
+.ocr-stat{text-align:center}
+.sv{display:block;font-size:1.75rem;font-weight:300;font-family:var(--fm);line-height:1;color:var(--ink)}
+.sl{font-family:var(--fm);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.conf-high{color:#2e7d32} .conf-medium{color:#e65100} .conf-low{color:#b71c1c}
+[data-theme=dark] .conf-high{color:#81c784} [data-theme=dark] .conf-medium{color:#ffb74d} [data-theme=dark] .conf-low{color:#ef9a9a}
+.ocr-rev{background:rgba(255,152,0,.12);border:1px solid rgba(255,152,0,.35);color:#e65100;padding:3px 10px;border-radius:10px;font-size:11px;font-family:var(--fm)}
+[data-theme=dark] .ocr-rev{color:#ffb74d}
+.ocr-legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px;font-size:11px;font-family:var(--fm)}
+.leg.g{color:#2e7d32} .leg.y{color:#f57f17} .leg.o{color:#e65100} .leg.r{color:#b71c1c}
+[data-theme=dark] .leg.g{color:#81c784} [data-theme=dark] .leg.y{color:#fff176} [data-theme=dark] .leg.o{color:#ffb74d} [data-theme=dark] .leg.r{color:#ef9a9a}
+.conf-bar{height:5px;display:flex;border-radius:3px;overflow:hidden;background:var(--border);margin:6px 0 14px}
+.cb-seg{height:100%}
+.cb-seg.green{background:#4caf50} .cb-seg.yellow{background:#ffc400} .cb-seg.orange{background:#ff6d00} .cb-seg.red{background:#f44336}
+.ocr-page{margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+.ocr-ph{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;font-family:var(--fm);font-size:10px}
+.ocr-pn{font-weight:600;color:var(--accent2)}
+.ocr-src{background:var(--bg);border:1px solid var(--border);padding:1px 5px;border-radius:7px;color:var(--ink3)}
+.ocr-prep{color:var(--ink3)}
+.ocr-body{line-height:2;font-size:.94rem}
+.ocr-empty{color:var(--ink3);font-style:italic;font-size:.88rem}
+/* word spans */
+.ow{position:relative;display:inline;border-radius:2px;cursor:help;padding:0 1px;transition:background var(--tr)}
+.ow-green{border-bottom:2px solid rgba(76,175,80,.55)}
+.ow-yellow{border-bottom:2px solid rgba(255,196,0,.65);background:rgba(255,196,0,.07)}
+.ow-orange{border-bottom:2px solid rgba(255,109,0,.65);background:rgba(255,109,0,.09)}
+.ow-red{border-bottom:2px solid rgba(244,67,54,.65);background:rgba(244,67,54,.09)}
+.ow[data-conflict]{outline:1px dashed rgba(244,67,54,.45);outline-offset:1px}
+.ow:hover,.ow:focus{background:rgba(0,0,0,.055);outline:none}
+[data-theme=dark] .ow:hover,[data-theme=dark] .ow:focus{background:rgba(255,255,255,.07)}
+.ott{display:none;position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);font-family:var(--fm);font-size:10px;padding:3px 7px;border-radius:var(--r);white-space:nowrap;z-index:200;pointer-events:none;box-shadow:var(--sh)}
+.ott::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink)}
+.ow:hover .ott,.ow:focus .ott{display:block}
+
+/* print */
+@media print{
+  #tb,#sb{display:none!important}
+  #lay{display:block;padding-top:0}
+  #mn{padding:0}
+  #doc{max-width:100%}
+  .ow{border-bottom:none!important;background:none!important}
+  #ocrp{display:none!important}
+}
+/* responsive */
+@media(max-width:800px){
+  :root{--fw:100%}
+  #lay{grid-template-columns:1fr}
+  #sb{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  #mn{padding:22px 16px 60px}
+  .dt{font-size:1.75rem}
+  #si{width:130px}
+}
+@media(max-width:480px){
+  .tb-title{display:none}
+  #mn{padding:14px 10px 60px}
+}
+</style>
+</head>
+<body>
+
+<nav id="tb">
+  <span class="tb-brand">.odx</span>
+  <span class="tb-title">ODX Technical Specification</span>
+  <input id="si" type="search" placeholder="Cerca… (Ctrl+F)" aria-label="Cerca nel documento">
+  <span id="sc" aria-live="polite"></span>
+  <button class="tbtn" onclick="snav(-1)" aria-label="Precedente">↑</button>
+  <button class="tbtn" onclick="snav(1)" aria-label="Successivo">↓</button>
+  
+  <button class="tbtn" id="tb-th" onclick="toggleTheme()">◑ Dark</button>
+</nav>
+
+<div id="lay">
+  <aside id="sb">
+    <div class="sb-sec">
+      <div class="sb-lbl">Metadati</div>
+      <div class="mr"><span class="mk">Titolo</span><span class="mv">ODX Technical Specification</span></div><div class="mr"><span class="mk">Autori</span><span class="mv">Marco Razzano</span></div><div class="mr"><span class="mk">Lingua</span><span class="mv">en</span></div><div class="mr"><span class="mk">Data</span><span class="mv">2026-03-10</span></div><div class="mr"><span class="mk">Tipo</span><span class="mv">other</span></div><div class="mr"><span class="mk">Sorgente</span><span class="mv">pdf</span></div><div class="mr"><span class="mk">Pagine</span><span class="mv">2</span></div>
+    </div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Layer ODX</div>
+      <span class="lbadge ok">meta</span><span class="lbadge ok">semantic</span><span class="lbadge ">· layout</span><span class="lbadge ok">text</span><span class="lbadge ">· assets</span><span class="lbadge ">· ocr</span><span class="lbadge ">· diff</span><span class="lbadge ">· sign</span>
+    </div>
+    
+  </aside>
+  <main id="mn">
+    <article id="doc">
+      <header class="dh">
+        <h1 class="dt">ODX Technical Specification</h1>
+        <div class="by"><span class="by-i">Marco Razzano</span>
+<span class="by-i">2026-03-10</span>
+<span class="by-i">ODX 0.1</span>
+<span class="by-i" style="font-size:9px;opacity:.45">b55594fc…</span></div>
+      </header>
+      <section class="odx-section odx-role-body" id="s001"><p id="e0001" class="odx-para">ODX  Open Document eXtended Specifica Tecnica v0.1 · Bozza Marzo 2026 1. Introduzione ODX è un formato aperto per documenti digitali progettato nel 2026 per superare i limiti strutturali del PDF. Il PDF risale al 1993 e porta con sé problemi irrisolvibili: layout fisso non adattivo, OCR esterno e inaffidabile, nessun versioning nativo, modifica complessa, accessibilità opzionale. ODX eredita i pregi del PDF  portabilità, fedeltà visiva, firma digitale, archiviazione a lungo termine  eliminando ogni limite. Il risultato è un formato veloce, leggero, universale, accessibile e semanticamente ricco. 2. Architettura dei Layer Un file .odx è un container binario con segmenti separati compressi individualmente con Zstandard. Ogni segmento può essere letto, aggiornato e verificato indipendentemente dagli altri. Layer obbligatori: /meta  Metadati strutturati JSON-LD: autore, UUID, lingua, integrità crittografica. /semantic  Struttura logica XML con ruoli ARIA: titoli, paragrafi, figure, tabelle, note. /text  Testo puro UTF-8 completamente indicizzabile e ricercabile. Layer opzionali: /layout viewport. /ocr  Layer OCR nativo con confidence per parola, bounding box e candidati alternativi. /diff  Cronologia versioni stile git senza copia intera del documento. /sign  Firme digitali Ed25519 per singolo layer. 3. Struttura Binaria L'header fisso da 32 byte contiene il magic 'ODX!' seguito da versione, flags, offset della segment ODX_MAGIC = 0x4F445821 | VERSION = 0x0001 | FLAGS bitmask 4. Compressione</p>
+<p id="e0002" class="odx-para">JPEG XL o WebP per le immagini in base al contenuto. Il font subsetting con fonttools include solo i glifi Unicode effettivamente usati nel documento. 5. Confronto con PDF Caratteristica Layout adattivo OCR nativo No Versioning No Accessibilità Opzionale Obbligatoria Compressione DEFLATE Lazy loading No Firma per layer No Open standard ODX non è un miglioramento incrementale del PDF. È una riscrittura del concetto stesso di documento digitale permanente per il 2026.</p>
+</section>
+
+    </article>
+    <div id="ocrp" aria-hidden="true">
+      <h2 style="font-weight:300;font-size:1.35rem;margin-bottom:6px">Layer OCR</h2>
+      <p style="font-family:var(--fm);font-size:10px;color:var(--ink3);margin-bottom:4px">
+        Ogni parola riconosciuta è annotata con la confidence dell'engine OCR.
+      </p>
+      <p class="ocr-empty">Nessun layer OCR.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+// Theme
+function toggleTheme(){
+  const d=document.documentElement,b=document.getElementById('tb-th');
+  if(d.dataset.theme==='dark'){d.removeAttribute('data-theme');b.textContent='◑ Dark';localStorage.setItem('odx-th','light');}
+  else{d.dataset.theme='dark';b.textContent='◑ Light';localStorage.setItem('odx-th','dark');}
+}
+(function(){
+  const s=localStorage.getItem('odx-th');
+  const pd=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(s==='dark'||(s===null&&pd)){
+    document.documentElement.dataset.theme='dark';
+    document.addEventListener('DOMContentLoaded',function(){
+      const b=document.getElementById('tb-th');
+      if(b)b.textContent='◑ Light';
+    });
+  }
+})();
+
+// OCR toggle
+function toggleOCR(){
+  const op=document.getElementById('ocrp');
+  const dp=document.getElementById('doc');
+  const b=document.getElementById('tb-ocr');
+  if(!op)return;
+  const on=op.classList.toggle('on');
+  dp.classList.toggle('hide',on);
+  b.classList.toggle('on',on);
+  b.textContent=on?'⎋ Documento':'◎ Vista OCR';
+  if(op.getAttribute('aria-hidden'))op.removeAttribute('aria-hidden');
+}
+
+// Search
+let sm=[],si2=0;
+function clearSrch(){
+  document.querySelectorAll('mark.srch').forEach(m=>{
+    const p=m.parentNode;
+    p.replaceChild(document.createTextNode(m.textContent),m);
+    p.normalize();
+  });
+  sm=[];si2=0;
+  document.getElementById('sc').textContent='';
+}
+function doSearch(q){
+  clearSrch();
+  if(!q||q.length<2)return;
+  const c=document.getElementById('doc');
+  if(!c)return;
+  const w=document.createTreeWalker(c,NodeFilter.SHOW_TEXT);
+  const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+  const ns=[];let n;
+  while((n=w.nextNode()))ns.push(n);
+  ns.forEach(nd=>{
+    if(!nd.textContent.match(re))return;
+    const sp=document.createElement('span');
+    sp.innerHTML=nd.textContent.replace(re,m=>`<mark class="srch">${m}</mark>`);
+    nd.parentNode.replaceChild(sp,nd);
+  });
+  sm=Array.from(document.querySelectorAll('mark.srch'));
+  const sc=document.getElementById('sc');
+  if(!sm.length){sc.textContent='nessun risultato';return;}
+  sc.textContent=`1 / ${sm.length}`;
+  sm[0].scrollIntoView({behavior:'smooth',block:'center'});
+  sm[0].style.outline='2px solid #ff6d00';
+}
+function snav(d){
+  if(!sm.length)return;
+  sm[si2].style.outline='';
+  si2=(si2+d+sm.length)%sm.length;
+  sm[si2].style.outline='2px solid #ff6d00';
+  sm[si2].scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('sc').textContent=`${si2+1} / ${sm.length}`;
+}
+document.addEventListener('DOMContentLoaded',function(){
+  const inp=document.getElementById('si');
+  if(inp){
+    let t;
+    inp.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>doSearch(inp.value),280);});
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){e.shiftKey?snav(-1):snav(1);}
+      if(e.key==='Escape'){inp.value='';clearSrch();}
+    });
+  }
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key==='f'){
+      const inp=document.getElementById('si');
+      if(inp){e.preventDefault();inp.focus();inp.select();}
+    }
+  });
+});
+
+// TOC scroll spy
+document.addEventListener('DOMContentLoaded',function(){
+  const hs=document.querySelectorAll('.odx-heading[id]');
+  const ls=document.querySelectorAll('.toc-item a');
+  if(!hs.length||!ls.length)return;
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        ls.forEach(l=>l.style.fontWeight='');
+        const l=document.querySelector(`.toc-item a[href="#${e.target.id}"]`);
+        if(l)l.style.fontWeight='700';
+      }
+    });
+  },{rootMargin:'-15% 0px -70% 0px'});
+  hs.forEach(h=>obs.observe(h));
+});
+</script>
+</body>
+</html>
