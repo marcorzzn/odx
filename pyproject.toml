@@ -1,20 +1,82 @@
 [build-system]
-requires = ["setuptools>=61.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
 
 [project]
 name = "odx"
 version = "0.1.0"
-description = "Open Document eXtended Core Library"
+description = "ODX — Open Document eXtended: an open format designed to supersede PDF"
 readme = "README.md"
+license = { file = "LICENSE" }
 authors = [{ name = "Marco Razzano" }]
-license = { text = "MIT" }
 requires-python = ">=3.9"
-dependencies = []
+keywords = ["document", "format", "ocr", "pdf", "open-source"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Markup",
+]
+
+# Core dependencies — always required
+dependencies = [
+    "lxml>=4.9",
+]
 
 [project.optional-dependencies]
-compress = ["zstandard"]
-pdf = ["PyMuPDF", "pdfplumber"]
-ocr = ["opencv-python", "numpy", "pytesseract", "easyocr", "transformers", "torch"]
-dev = ["pytest"]
-all = ["odx[compress,pdf,ocr]"]
+# Recommended for better compression (3–5x faster than zlib)
+compress = ["zstandard>=0.21"]
+
+# PDF conversion
+pdf = ["pikepdf>=8.0", "reportlab>=4.0"]
+
+# OCR pipeline (printed text)
+ocr = [
+    "pytesseract>=0.3",
+    "opencv-python-headless>=4.8",
+    "Pillow>=10.0",
+    "numpy>=1.24",
+]
+
+# OCR consensus engine
+ocr-full = [
+    "odx[ocr]",
+    "easyocr>=1.7",
+]
+
+# Handwriting recognition
+handwriting = [
+    "odx[ocr]",
+    "transformers>=4.35",
+    "torch>=2.0",
+]
+
+# Everything
+all = [
+    "odx[compress,pdf,ocr-full,handwriting]",
+]
+
+# Development
+dev = [
+    "pytest>=7",
+    "odx[compress]",
+]
+
+[project.scripts]
+odx = "odx_cli:main"
+
+[project.urls]
+Homepage = "https://github.com/marcorzzn/odx"
+"Bug Tracker" = "https://github.com/marcorzzn/odx/issues"
+Specification = "https://github.com/marcorzzn/odx/blob/main/SPEC.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["odxlib*", "odx_renderer*", "converters*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
